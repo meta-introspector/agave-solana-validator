@@ -1,20 +1,12 @@
 #[cfg(test)]
-use crate::contact_info::{
-    get_quic_socket, sanitize_quic_offset, sanitize_socket, ContactInfo, Error, Protocol,
-    SOCKET_ADDR_UNSPECIFIED,
-};
+use crate::contact_info::{get_quic_socket, sanitize_socket};
 use {
-<<<<<<< HEAD
     crate::{
         contact_info::{
             sanitize_quic_offset, ContactInfo, Error, Protocol, SOCKET_ADDR_UNSPECIFIED,
         },
         crds_value::MAX_WALLCLOCK,
     },
-=======
-    crate::crds_data::MAX_WALLCLOCK,
-    solana_pubkey::Pubkey,
->>>>>>> 6b88a9cd3 (stops pushing LegacyContactInfo updates over gossip (#4368))
     solana_sanitize::{Sanitize, SanitizeError},
     solana_sdk::pubkey::Pubkey,
     solana_streamer::socket::SocketAddrSpace,
@@ -177,7 +169,6 @@ impl LegacyContactInfo {
     }
 }
 
-#[cfg(test)]
 impl TryFrom<&ContactInfo> for LegacyContactInfo {
     type Error = Error;
 

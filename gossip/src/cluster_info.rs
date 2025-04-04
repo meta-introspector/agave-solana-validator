@@ -32,17 +32,8 @@ use {
         duplicate_shred::DuplicateShred,
         epoch_slots::EpochSlots,
         gossip_error::GossipError,
-<<<<<<< HEAD
         legacy_contact_info::LegacyContactInfo,
         ping_pong::{self, PingCache, Pong},
-=======
-        ping_pong::Pong,
-        protocol::{
-            split_gossip_messages, Ping, PingCache, Protocol, PruneData,
-            DUPLICATE_SHRED_MAX_PAYLOAD_SIZE, MAX_INCREMENTAL_SNAPSHOT_HASHES,
-            MAX_PRUNE_DATA_NODES, PULL_RESPONSE_MIN_SERIALIZED_SIZE, PUSH_MESSAGE_MAX_PAYLOAD_SIZE,
-        },
->>>>>>> 6b88a9cd3 (stops pushing LegacyContactInfo updates over gossip (#4368))
         restart_crds_values::{
             RestartHeaviestFork, RestartLastVotedForkSlots, RestartLastVotedForkSlotsError,
         },
@@ -542,27 +533,12 @@ impl ClusterInfo {
 
     // TODO kill insert_info, only used by tests
     pub fn insert_info(&self, node: ContactInfo) {
-<<<<<<< HEAD
-        let entries: Vec<_> = [
-            LegacyContactInfo::try_from(&node)
-                .map(CrdsData::LegacyContactInfo)
-                .expect("Operator must spin up node with valid contact-info"),
-            CrdsData::ContactInfo(node),
-        ]
-        .into_iter()
-        .map(|entry| CrdsValue::new_signed(entry, &self.keypair()))
-        .collect();
-        let mut gossip_crds = self.gossip.crds.write().unwrap();
-        for entry in entries {
-            let _ = gossip_crds.insert(entry, timestamp(), GossipRoute::LocalMessage);
-=======
-        let entry = CrdsValue::new(CrdsData::ContactInfo(node), &self.keypair());
+        let entry = CrdsValue::new_signed(CrdsData::ContactInfo(node), &self.keypair());
         if let Err(err) = {
             let mut gossip_crds = self.gossip.crds.write().unwrap();
             gossip_crds.insert(entry, timestamp(), GossipRoute::LocalMessage)
         } {
             error!("ClusterInfo.insert_info: {err:?}");
->>>>>>> 6b88a9cd3 (stops pushing LegacyContactInfo updates over gossip (#4368))
         }
     }
 
@@ -2168,13 +2144,8 @@ impl ClusterInfo {
                 } else {
                     score
                 };
-<<<<<<< HEAD
                 let score = match response.data {
-                    CrdsData::LegacyContactInfo(_) | CrdsData::ContactInfo(_) => 2 * score,
-=======
-                let score = match response.data() {
                     CrdsData::ContactInfo(_) => 2 * score,
->>>>>>> 6b88a9cd3 (stops pushing LegacyContactInfo updates over gossip (#4368))
                     _ => score,
                 };
                 ((addr, response), score)
