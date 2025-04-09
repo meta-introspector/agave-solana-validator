@@ -14,7 +14,10 @@ serde = { workspace = true, optional = true }
 serde_derive = { workspace = true, optional = true }
 solana-account = { workspace = true }
 solana-instruction = { workspace = true, features = ["std"] }
+<<<<<<< HEAD
 solana-instructions-sysvar = { workspace = true }
+=======
+>>>>>>> 4e35006f3 (v2.2: Move solana-transaction-context into mono repo (backport of #5226) (#5634))
 solana-pubkey = { workspace = true }
 
 [package.metadata.docs.rs]

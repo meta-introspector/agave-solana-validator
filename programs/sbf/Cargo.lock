@@ -8761,7 +8761,10 @@ dependencies = [
  "serde_derive",
  "solana-account",
  "solana-instruction",
+<<<<<<< HEAD
  "solana-instructions-sysvar",
+=======
+>>>>>>> 4e35006f3 (v2.2: Move solana-transaction-context into mono repo (backport of #5226) (#5634))
  "solana-pubkey",
  "solana-rent",
  "solana-signature",

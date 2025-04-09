@@ -13,7 +13,10 @@ use {solana_account::WritableAccount, solana_rent::Rent, std::mem::MaybeUninit};
 use {
     solana_account::{AccountSharedData, ReadableAccount},
     solana_instruction::error::InstructionError,
+<<<<<<< HEAD
     solana_instructions_sysvar as instructions,
+=======
+>>>>>>> 4e35006f3 (v2.2: Move solana-transaction-context into mono repo (backport of #5226) (#5634))
     solana_pubkey::Pubkey,
     std::{
         cell::{Ref, RefCell, RefMut},
@@ -97,7 +100,11 @@ impl TransactionAccounts {
         self.accounts.len()
     }
 
+<<<<<<< HEAD
     fn get(&self, index: IndexOfAccount) -> Option<&RefCell<AccountSharedData>> {
+=======
+    pub fn get(&self, index: IndexOfAccount) -> Option<&RefCell<AccountSharedData>> {
+>>>>>>> 4e35006f3 (v2.2: Move solana-transaction-context into mono repo (backport of #5226) (#5634))
         self.accounts.get(index as usize)
     }
 
@@ -132,6 +139,20 @@ impl TransactionAccounts {
             .map_err(|_| InstructionError::AccountBorrowFailed)
     }
 
+<<<<<<< HEAD
+=======
+    pub fn try_borrow_mut(
+        &self,
+        index: IndexOfAccount,
+    ) -> Result<RefMut<'_, AccountSharedData>, InstructionError> {
+        self.accounts
+            .get(index as usize)
+            .ok_or(InstructionError::MissingAccount)?
+            .try_borrow_mut()
+            .map_err(|_| InstructionError::AccountBorrowFailed)
+    }
+
+>>>>>>> 4e35006f3 (v2.2: Move solana-transaction-context into mono repo (backport of #5226) (#5634))
     pub fn into_accounts(self) -> Vec<AccountSharedData> {
         self.accounts
             .into_iter()
@@ -151,7 +172,10 @@ pub struct TransactionContext {
     instruction_trace_capacity: usize,
     instruction_stack: Vec<usize>,
     instruction_trace: Vec<InstructionContext>,
+<<<<<<< HEAD
     top_level_instruction_index: usize,
+=======
+>>>>>>> 4e35006f3 (v2.2: Move solana-transaction-context into mono repo (backport of #5226) (#5634))
     return_data: TransactionReturnData,
     accounts_resize_delta: RefCell<i64>,
     #[cfg(not(target_os = "solana"))]
@@ -187,7 +211,10 @@ impl TransactionContext {
             instruction_trace_capacity,
             instruction_stack: Vec::with_capacity(instruction_stack_capacity),
             instruction_trace: vec![InstructionContext::default()],
+<<<<<<< HEAD
             top_level_instruction_index: 0,
+=======
+>>>>>>> 4e35006f3 (v2.2: Move solana-transaction-context into mono repo (backport of #5226) (#5634))
             return_data: TransactionReturnData::default(),
             accounts_resize_delta: RefCell::new(0),
             remove_accounts_executable_flag_checks: true,
@@ -259,10 +286,14 @@ impl TransactionContext {
     }
 
     /// Searches for an account by its key
+<<<<<<< HEAD
     #[cfg(all(
         not(target_os = "solana"),
         any(test, feature = "dev-context-only-utils")
     ))]
+=======
+    #[cfg(not(target_os = "solana"))]
+>>>>>>> 4e35006f3 (v2.2: Move solana-transaction-context into mono repo (backport of #5226) (#5634))
     pub fn get_account_at_index(
         &self,
         index_in_transaction: IndexOfAccount,
@@ -393,6 +424,7 @@ impl TransactionContext {
             return Err(InstructionError::CallDepth);
         }
         self.instruction_stack.push(index_in_trace);
+<<<<<<< HEAD
         if let Some(index_in_transaction) = self.find_index_of_account(&instructions::id()) {
             let mut mut_account_ref = self
                 .accounts
@@ -405,6 +437,8 @@ impl TransactionContext {
                 self.top_level_instruction_index as u16,
             );
         }
+=======
+>>>>>>> 4e35006f3 (v2.2: Move solana-transaction-context into mono repo (backport of #5226) (#5634))
         Ok(())
     }
 
@@ -419,10 +453,15 @@ impl TransactionContext {
             self.get_current_instruction_context()
                 .and_then(|instruction_context| {
                     // Verify all executable accounts have no outstanding refs
+<<<<<<< HEAD
                     for index_in_transaction in instruction_context.program_accounts.iter() {
                         self.accounts
                             .get(*index_in_transaction)
                             .ok_or(InstructionError::NotEnoughAccountKeys)?
+=======
+                    for account_index in instruction_context.program_accounts.iter() {
+                        self.get_account_at_index(*account_index)?
+>>>>>>> 4e35006f3 (v2.2: Move solana-transaction-context into mono repo (backport of #5226) (#5634))
                             .try_borrow_mut()
                             .map_err(|_| InstructionError::AccountBorrowOutstanding)?;
                     }
@@ -434,9 +473,12 @@ impl TransactionContext {
                 });
         // Always pop, even if we `detected_an_unbalanced_instruction`
         self.instruction_stack.pop();
+<<<<<<< HEAD
         if self.instruction_stack.is_empty() {
             self.top_level_instruction_index = self.top_level_instruction_index.saturating_add(1);
         }
+=======
+>>>>>>> 4e35006f3 (v2.2: Move solana-transaction-context into mono repo (backport of #5226) (#5634))
         if detected_an_unbalanced_instruction? {
             Err(InstructionError::UnbalancedInstruction)
         } else {
@@ -477,9 +519,13 @@ impl TransactionContext {
             let index_in_transaction = instruction_context
                 .get_index_of_instruction_account_in_transaction(instruction_account_index)?;
             instruction_accounts_lamport_sum = (self
+<<<<<<< HEAD
                 .accounts
                 .get(index_in_transaction)
                 .ok_or(InstructionError::NotEnoughAccountKeys)?
+=======
+                .get_account_at_index(index_in_transaction)?
+>>>>>>> 4e35006f3 (v2.2: Move solana-transaction-context into mono repo (backport of #5226) (#5634))
                 .try_borrow()
                 .map_err(|_| InstructionError::AccountBorrowOutstanding)?
                 .lamports() as u128)
@@ -496,6 +542,7 @@ impl TransactionContext {
             .map_err(|_| InstructionError::GenericError)
             .map(|value_ref| *value_ref)
     }
+<<<<<<< HEAD
 
     /// Returns a new account data write access handler
     pub fn account_data_write_access_handler(&self) -> Box<dyn Fn(u64) -> Result<u64, ()>> {
@@ -522,6 +569,8 @@ impl TransactionContext {
             Ok(account.data_as_mut_slice().as_mut_ptr() as u64)
         })
     }
+=======
+>>>>>>> 4e35006f3 (v2.2: Move solana-transaction-context into mono repo (backport of #5226) (#5634))
 }
 
 /// Return data at the end of a transaction
