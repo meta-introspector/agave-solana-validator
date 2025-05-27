@@ -31,10 +31,10 @@ use {
     tokio_util::compat::TokioAsyncReadCompatExt,
 };
 
-pub const MAX_ACTIVE_SUBSCRIPTIONS: usize = 1_000;
-pub const DEFAULT_QUEUE_CAPACITY_ITEMS: usize = 10_000;
-pub const DEFAULT_TEST_QUEUE_CAPACITY_ITEMS: usize = 10;
-pub const DEFAULT_QUEUE_CAPACITY_BYTES: usize = 64 * 1024 * 1024;
+pub const MAX_ACTIVE_SUBSCRIPTIONS: usize = 126;
+pub const DEFAULT_QUEUE_CAPACITY_ITEMS: usize = 1000;
+pub const DEFAULT_TEST_QUEUE_CAPACITY_ITEMS: usize = 5;
+pub const DEFAULT_QUEUE_CAPACITY_BYTES: usize = 16 * 1024 * 1024;
 pub const DEFAULT_WORKER_THREADS: usize = 1;
 
 #[derive(Debug, Clone)]
