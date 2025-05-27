@@ -20,7 +20,7 @@ source "$here/install-proto.sh" "$os_name"
 #   ;;
 # "Linux")
  sudo apt update
- sudo apt install -y libclang-dev libudev
+ sudo apt install -y libclang-dev libudev-dev
  sudo apt-get install libssl-dev libudev-dev pkg-config zlib1g-dev llvm clang cmake make libprotobuf-dev protobuf-compiler libclang-dev
 #  ;;
 #*)
