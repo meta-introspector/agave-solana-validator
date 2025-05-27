@@ -1,3 +1,13 @@
+
+# new
+
+using a custom rust env from https://github.com/meta-introspector/platform-tools-agave-rust-solana
+
+`export MALLOC_CONF=prof:true,lg_prof_interval:1,lg_prof_sample:1,prof_prefix:/tmp/jeprof`
+`cargo run --bin solana-test-validator `
+
+
+# old
 <p align="center">
   <a href="https://solana.com">
     <img alt="Solana" src="https://i.imgur.com/0vfIMHo.png" width="250" />
