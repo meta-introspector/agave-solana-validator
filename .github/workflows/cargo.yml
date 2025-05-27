@@ -38,9 +38,9 @@ jobs:
           - windows-latest
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: meta-introspector/checkout@v4
 
-      - uses: mozilla-actions/sccache-action@v0.0.9
+      - uses: meta-introspector/sccache-action@v0.0.9
         with:
           version: "v0.10.0"
 
