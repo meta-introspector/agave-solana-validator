@@ -8,6 +8,14 @@ using a custom rust env from https://github.com/meta-introspector/platform-tools
 export MALLOC_CONF=prof:true,lg_prof_interval:31,lg_prof_sample:1,prof_prefix:/home/mdupont/2025/05/27/agave-solana-validator/profiles/solana-test-validator/new/profile1/jeprofile
 cargo run --bin solana-test-validator  -- --limit-ledger-size 0
 ./jeprof ./solana-test-validator ~/2025/05/27/agave-solana-validator/profiles/solana-test-validator/new/profile1/jeprofile.153462.0.i0.heap  --svg > test.svg
+
+
+
+./jeprof ./solana-test-validator ~/2025/05/27/agave-solana-validator/profiles/solana-test-validator/new/profile1/jeprofile.164383.0.i0.heap
+
+
+
+
 ```
   
 Other experiments
@@ -82,7 +90,7 @@ On Linux systems you may need to install libssl-dev, pkg-config, zlib1g-dev, pro
 On Ubuntu:
 ```bash
 $ sudo apt-get update
-$ sudo apt-get install libssl-dev libudev-dev pkg-config zlib1g-dev llvm clang cmake make libprotobuf-dev protobuf-compiler libclang-dev
+sudo apt-get install libssl-dev libudev-dev pkg-config zlib1g-dev llvm clang cmake make libprotobuf-dev protobuf-compiler libclang-dev
 ```
 
 On Fedora:
