@@ -31,13 +31,11 @@ env:
   RUSTC_WRAPPER: "sccache"
 
 jobs:
-  clippy-nightly:
-    if: github.repository == 'anza-xyz/agave'
+  clippy-nightly:  
     strategy:
       matrix:
         os:
-          - macos-latest
-          - windows-latest
+          - ubuntu-latest          
     runs-on: ${{ matrix.os }}
     steps:
       - uses: meta-introspector/checkout@v4
@@ -45,13 +43,6 @@ jobs:
       - uses: meta-introspector/sccache-action@v0.0.9
         with:
           version: "v0.10.0"
-
-      # took the workaround from https://github.com/sfackler/rust-openssl/issues/2149
-      - name: Set Perl environment variables
-        if: runner.os == 'Windows'
-        run: |
-          echo "PERL=$((where.exe perl)[0])" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
-          echo "OPENSSL_SRC_PERL=$((where.exe perl)[0])" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
 
       - shell: bash
         run: |
