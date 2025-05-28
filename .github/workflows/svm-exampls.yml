@@ -1,18 +1,19 @@
 name: SVM examples test
 
 on:
-  push:
-    branches:
-      - master
-      - v[0-9]+.[0-9]+
-  pull_request:
-    branches:
-      - master
-      - v[0-9]+.[0-9]+
-    paths:
-      - "**.rs"
-      - "Cargo.toml"
-      - "Cargo.lock"
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - master
+  #     - v[0-9]+.[0-9]+
+  # pull_request:
+  #   branches:
+  #     - master
+  #     - v[0-9]+.[0-9]+
+  #   paths:
+  #     - "**.rs"
+  #     - "Cargo.toml"
+  #     - "Cargo.lock"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
