@@ -56,7 +56,8 @@ jobs:
           changelog: CHANGELOG.md
           # (required) GitHub token for creating GitHub Releases.
           token: ${{ secrets.GITHUB_TOKEN }}
-
+          ref: refs/tags/experimental
+          
       - uses: meta-introspector/upload-rust-binary-action@v1
         with:
           # (required) Comma-separated list of binary names (non-extension portion of filename) to build and upload.
