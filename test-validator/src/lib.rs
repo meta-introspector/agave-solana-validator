@@ -84,6 +84,7 @@ pub struct UpgradeableProgramInfo {
     pub program_path: PathBuf,
 }
 
+
 #[derive(Debug)]
 pub struct TestValidatorNodeConfig {
     gossip_addr: SocketAddr,

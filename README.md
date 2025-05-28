@@ -1,3 +1,57 @@
+
+# new
+
+using a custom rust env from https://github.com/meta-introspector/platform-tools-agave-rust-solana
+
+## latest experiment
+```
+export MALLOC_CONF=prof:true,lg_prof_interval:31,lg_prof_sample:1,prof_prefix:/home/mdupont/2025/05/27/agave-solana-validator/profiles/solana-test-validator/new/profile1/jeprofile
+cargo run --bin solana-test-validator  -- --limit-ledger-size 0
+./jeprof ./solana-test-validator ~/2025/05/27/agave-solana-validator/profiles/solana-test-validator/new/profile1/jeprofile.153462.0.i0.heap  --svg > test.svg
+
+
+
+./jeprof ./solana-test-validator ~/2025/05/27/agave-solana-validator/profiles/solana-test-validator/new/profile1/jeprofile.164383.0.i0.heap
+
+
+
+
+```
+  
+Other experiments
+
+```
+cargo run --bin solana-test-validator  --limit-ledger-size 0
+
+``
+
+export MALLOC_CONF=prof:true,lg_prof_interval:31,lg_prof_sample:1,prof_prefix:/home/mdupont/2025/05/27/agave-solana-validator/profiles/solana-test-validator/new/profile1/jeprofile
+
+export MALLOC_CONF=prof:true,lg_prof_interval:25,lg_prof_sample:25,prof_prefix:/home/mdupont/2025/05/27/agave-solana-validator/profiles/solana-test-validator/new/profile1/jeprofile
+
+export MALLOC_CONF=prof:true,lg_prof_interval:125,lg_prof_sample:25,prof_prefix:/home/mdupont/2025/05/27/agave-solana-validator/profiles/solana-test-validator/new/profile1/jeprofile
+
+
+
+mdupont@mdupont-G470:~/2025/04/25/agave-solana-validator/target/debug$ ./jeprof  ~/2025/05/27/agave-solana-validator/profiles/solana-test-validator/jeprof.3789843.133510.i133510.heap --show_bytes
+
+/home/mdupont/2024/08/05/jemalloc/bin/jeprof
+
+
+## sources
+
+https://clickhouse.com/docs/operations/allocation-profiling
+
+using https://github.com/gimli-rs/addr2line.git
+https://github.com/jemalloc/jemalloc/wiki/Use-Case%3A-Leak-Checking
+https://github.com/jemalloc/jemalloc/wiki/Use-Case%3A-Heap-Profiling
+https://github.com/0xdeafbeef/jeprofl
+https://github.com/jemalloc/jemalloc/tree/dev
+https://jemalloc.net/
+https://www.polarsignals.com/blog/posts/2023/12/20/rust-memory-profiling
+
+
+# old
 <p align="center">
   <a href="https://solana.com">
     <img alt="Solana" src="https://i.imgur.com/0vfIMHo.png" width="250" />
@@ -36,7 +90,7 @@ On Linux systems you may need to install libssl-dev, pkg-config, zlib1g-dev, pro
 On Ubuntu:
 ```bash
 $ sudo apt-get update
-$ sudo apt-get install libssl-dev libudev-dev pkg-config zlib1g-dev llvm clang cmake make libprotobuf-dev protobuf-compiler libclang-dev
+sudo apt-get install libssl-dev libudev-dev pkg-config zlib1g-dev llvm clang cmake make libprotobuf-dev protobuf-compiler libclang-dev
 ```
 
 On Fedora:

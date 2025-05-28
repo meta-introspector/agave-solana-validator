@@ -1,7 +1,9 @@
 name: Cargo
-
+permissions:
+  contents: write
 on:
-  push:
+  workflow_dispatch:
+  push:  
     branches:
       - master
       - v[0-9]+.[0-9]+
@@ -29,31 +31,37 @@ env:
   RUSTC_WRAPPER: "sccache"
 
 jobs:
-  clippy-nightly:
-    if: github.repository == 'anza-xyz/agave'
+  clippy-nightly:  
     strategy:
       matrix:
         os:
-          - macos-latest
-          - windows-latest
+          - ubuntu-latest          
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: mozilla-actions/sccache-action@v0.0.9
+      - uses: meta-introspector/checkout@v4
+      - uses: meta-introspector/create-gh-release-action@v1
+        with:
+          # (optional) Path to changelog.
+          changelog: CHANGELOG.md
+          # (required) GitHub token for creating GitHub Releases.
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: refs/tags/v0.0.02
+      - uses: meta-introspector/sccache-action@v0.0.9
         with:
           version: "v0.10.0"
-
-      # took the workaround from https://github.com/sfackler/rust-openssl/issues/2149
-      - name: Set Perl environment variables
-        if: runner.os == 'Windows'
-        run: |
-          echo "PERL=$((where.exe perl)[0])" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
-          echo "OPENSSL_SRC_PERL=$((where.exe perl)[0])" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
-
       - shell: bash
         run: |
           source .github/scripts/install-all-deps.sh ${{ runner.os }}
           source ci/rust-version.sh nightly
           rustup component add clippy --toolchain "$rust_nightly"
-          scripts/cargo-clippy-nightly.sh
+          scripts/cargo-clippy-nightly.sh  
+      
+          
+      - uses: meta-introspector/upload-rust-binary-action@v1
+        with:
+          # (required) Comma-separated list of binary names (non-extension portion of filename) to build and upload.
+          # Note that glob pattern is not supported yet.
+          ref: refs/tags/v0.0.02
+          bin: solana-test-validator
+          # (required) GitHub token for uploading assets to GitHub Releases.
+          token: ${{ secrets.GITHUB_TOKEN }}

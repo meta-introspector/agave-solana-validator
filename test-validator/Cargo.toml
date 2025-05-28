@@ -35,9 +35,11 @@ solana-sdk = { version = "=2.2.2", features = ["openssl-vendored"] }
 solana-streamer = { workspace = true }
 solana-tpu-client = { workspace = true }
 tokio = { workspace = true, features = ["full"] }
+tikv-jemallocator = { version = "*", features = ["profiling"] }
 
 [dev-dependencies]
 solana-sdk-ids = { workspace = true }
+#jemallocator = { workspace = true }
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

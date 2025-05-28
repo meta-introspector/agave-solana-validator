@@ -1,14 +1,15 @@
 name: Verify Packets
 
 on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
-    paths:
-      - .github/workflows/verify-packets.yml
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - master
+  # pull_request:
+  #   branches:
+  #     - master
+  #   paths:
+  #     - .github/workflows/verify-packets.yml
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
