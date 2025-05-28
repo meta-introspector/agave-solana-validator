@@ -40,7 +40,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: meta-introspector/checkout@v4
-
+      - uses: meta-introspector/create-gh-release-action@v1
+        with:
+          # (optional) Path to changelog.
+          changelog: CHANGELOG.md
+          # (required) GitHub token for creating GitHub Releases.
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: refs/tags/v0.0.02
       - uses: meta-introspector/sccache-action@v0.0.9
         with:
           version: "v0.10.0"
@@ -50,13 +56,7 @@ jobs:
           source ci/rust-version.sh nightly
           rustup component add clippy --toolchain "$rust_nightly"
           scripts/cargo-clippy-nightly.sh  
-      - uses: meta-introspector/create-gh-release-action@v1
-        with:
-          # (optional) Path to changelog.
-          changelog: CHANGELOG.md
-          # (required) GitHub token for creating GitHub Releases.
-          token: ${{ secrets.GITHUB_TOKEN }}
-          ref: refs/tags/experimental
+      
           
       - uses: meta-introspector/upload-rust-binary-action@v1
         with:
