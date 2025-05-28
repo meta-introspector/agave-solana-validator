@@ -84,13 +84,6 @@ pub struct UpgradeableProgramInfo {
     pub program_path: PathBuf,
 }
 
-// main.rs
-#[cfg(not(target_env = "msvc"))]
-use tikv_jemallocator::Jemalloc;
-
-#[cfg(not(target_env = "msvc"))]
-#[global_allocator]
-static GLOBAL: Jemalloc = Jemalloc;
 
 #[derive(Debug)]
 pub struct TestValidatorNodeConfig {

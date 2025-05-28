@@ -43,12 +43,21 @@ use {
     },
 };
 
+#[cfg(not(any(target_env = "msvc", target_os = "freebsd")))]
+use jemallocator::Jemalloc;
+
+
 #[derive(PartialEq, Eq)]
 enum Output {
     None,
     Log,
     Dashboard,
 }
+
+
+#[cfg(not(any(target_env = "msvc", target_os = "freebsd")))]
+#[global_allocator]
+static GLOBAL: Jemalloc = Jemalloc;
 
 fn main() {
     let default_args = cli::DefaultTestArgs::new();
