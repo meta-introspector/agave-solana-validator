@@ -1,18 +1,19 @@
 name: client_targets
 
 on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
-    paths:
-      - "client/**"
-      - ".github/workflows/client-targets.yml"
-      - "ci/rust-version.sh"
-      - "**/Cargo.toml"
-      - "**/Cargo.lock"
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - master
+  # pull_request:
+  #   branches:
+  #     - master
+  #   paths:
+  #     - "client/**"
+  #     - ".github/workflows/client-targets.yml"
+  #     - "ci/rust-version.sh"
+  #     - "**/Cargo.toml"
+  #     - "**/Cargo.lock"
 
 env:
   CARGO_TERM_COLOR: always
