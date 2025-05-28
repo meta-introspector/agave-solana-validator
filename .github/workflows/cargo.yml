@@ -1,5 +1,6 @@
 name: Cargo
-
+permissions:
+  contents: write
 on:
   workflow_dispatch:
   push:
@@ -43,10 +44,23 @@ jobs:
       - uses: meta-introspector/sccache-action@v0.0.9
         with:
           version: "v0.10.0"
-
       - shell: bash
         run: |
           source .github/scripts/install-all-deps.sh ${{ runner.os }}
           source ci/rust-version.sh nightly
           rustup component add clippy --toolchain "$rust_nightly"
-          scripts/cargo-clippy-nightly.sh
+          scripts/cargo-clippy-nightly.sh  
+      - uses: meta-introspector/create-gh-release-action@v1
+        with:
+          # (optional) Path to changelog.
+          changelog: CHANGELOG.md
+          # (required) GitHub token for creating GitHub Releases.
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: meta-introspector/upload-rust-binary-action@v1
+        with:
+          # (required) Comma-separated list of binary names (non-extension portion of filename) to build and upload.
+          # Note that glob pattern is not supported yet.
+          bin: solana-test-validator
+          # (required) GitHub token for uploading assets to GitHub Releases.
+          token: ${{ secrets.GITHUB_TOKEN }}
