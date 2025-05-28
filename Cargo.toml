@@ -1,3 +1,6 @@
+[build]
+profiler = true
+
 [profile.release-with-debug]
 inherits = "release"
 debug = true
